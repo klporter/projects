@@ -1,0 +1,177 @@
+#%RAML 0.8
+title: Mobile Banking API
+version: 1.0
+#baseUri: http://www.placeholder.com/api
+baseUri: http://mocksvc.mulesoft.com/mocks/b0e2cd49-27df-4f44-99a7-a58f987a4863/mocks/714c08b1-9fba-4d77-a2a0-36b29abe032c/api
+documentation:
+  - title: My Banking API
+    content: This is the full API for instructors to use (or cut down) as a base for the API Design for the Anypoint Platform class.  The student's job will be to expand the API definition to have greater functionality. <br><br> As the instructor, you have the option of providing them several scales of completion, either by providing all the resource-method pairings and asking them to complete logical query or response bodies, or only a few pairings, and requiring the students to intuit logical requirements for a mobile banking API. The repo will contain a few options.
+
+securitySchemes: !include security.raml
+mediaType: application/json
+
+/customers:
+  description: The full collection of all users with accounts at the bank.
+  get:
+    description: Retrieve a list of all the Bank's customers.
+    responses:
+      200: 
+        body: 
+          example: |
+            [
+              {
+                "id": "1234",
+                "userName": "Nora Charles",
+                "description": "This is the savings account of one Nora Charles",
+                "dob": "01/01/1980"
+              },
+              {
+                "id": "4321",
+                "userName": "Ray Charles",
+                "description": "This is the savings account of one Ray Charles",
+                "dob": "01/01/1980"
+              }  
+            ]
+  post:
+    description: Adds a new user to the Bank's customer listing.
+    body:
+      schema: |
+        {
+          "type": "object",
+          "$schema": "http://json-schema.org/draft-03/schema",
+          "id": "http://jsonschema.net",
+          "required": true,
+          "properties": {
+            "id": {
+              "type": "string",
+              "required": true
+              },
+            "userName": {
+              "type": "string",
+              "required": true
+              },
+            "dob": {
+              "type": "string",
+              "required": true
+              }
+            }
+        }
+
+  /{customer_id}:
+    put: 
+    description: Replace the customer listing indicated.
+    /accounts:
+      get:
+        description: Retrieve a list of bank accounts belonging to a single customer.
+        responses:
+          200: 
+            body: 
+              example: |
+                [
+                  { 
+                    "account_id" : "a2esd212343123",
+                    "user_id" : "123",
+                    "money": 11000.00
+                  },
+                  { 
+                    "account_id" : "a3esd212343123",
+                    "user_id" : "123",
+                    "money": 113300.00              
+                  }
+                ]
+      post:
+        description: Add a new bank account to a customer.
+      /{account_id}:
+        get: 
+          description: Retrieve the details for a particular bank account belonging to a customer.
+        put:
+          description: Replace a customer's bank account.
+        delete:
+          description: Remove a customer's bank account.
+        /outgoingTransfers:
+          get:
+            description: Retrieve a list of transfers that have been sent from a customer's bank account.
+            body: 
+              example: |
+                [
+                  { 
+                    "sourceAccount_id" : "a2esd212343123",
+                    "targetAccount_id" : "3523djfg329548",
+                    "amount": 1000.00,
+                    "description": "A written description of the transaction, provided at creation."
+                  },
+                  { 
+                    "sourceAccount_id" : "a2esd212343123",
+                    "targetAccount_id" : "3523djfg123123",
+                    "amount": 1024.00,
+                    "description": "This is the other description, again provided at creation."
+                  }
+                ]
+          post:
+            description: Create a new outgoing transaction.
+            body:
+              example: | 
+                { 
+                  "targetAccount_id" : "3523djfg329548",
+                  "amount": 1000.00,
+                  "description": "This is the description of the transaction."
+                }
+          /transfer_id:
+            get:
+              body:
+                example: |
+                  { 
+                    "sourceAccount_id" : "a2esd212343123",
+                    "targetAccount_id" : "3523djfg329548",
+                    "amount": 1000.00,
+                    "description": "This is the description of a particular transaction that you provided at creation."
+                  }
+        /incomingTransfers:
+          get:
+            body: 
+              example: |
+                [
+                  { 
+                    "sourceAccount_id" : "3523djfg329548",
+                    "targetAccount_id" : "a2esd212343123",
+                    "amount": 1200.00,
+                    "description": "This is the description provided by the sourceAccount"
+                  },
+                  { 
+                    "sourceAccount_id" : "3523djfg123123",
+                    "targetAccount_id" : "a2esd212343123",
+                    "ammount": 1324.00,
+                    "description": "This is completly different description"
+                  }
+                ]
+          /transfer_id:
+            get:
+              body:
+                example: |
+                  { 
+                    "sourceAccount_id" : "a2esd212343123"
+                    "targetAccount_id" : "3523djfg329548",
+                    "amount": 1000.00
+                    "description": "This is the description of a particular transfer."
+                  }
+    /transfers:
+      get:
+        description: Retrieve a list of all incoming and outgoing transfers associated with a particular customer.
+        body: 
+          example: |
+            [
+              { 
+                "sourceAccount_id" : "3523djfg329548",
+                "targetAccount_id" : "a2esd212343123",
+                "amount": 1200.00,
+                "description": "This is the description of the transfer, provided at creation",
+                "type": "incoming"
+              },
+              { 
+                "sourceAccount_id" : "3523djfg123123",
+                "targetAccount_id" : "a2esd212343123",
+                "ammount": 1324.00,
+                "description": "This is completly different description",
+                "type": "outgoing"
+              }
+            ]

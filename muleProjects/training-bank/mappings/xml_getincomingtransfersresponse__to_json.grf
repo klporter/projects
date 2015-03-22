@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><Graph __version="3.5.0" author="kevin.porter" created="Wed Oct 29 10:20:06 PDT 2014" description="Xml&lt;getIncomingTransfersResponse&gt; To JSON" guiVersion="3.4.4.P" id="1414709070268" licenseCode="Unlicensed" licenseType="Unknown" modified="Wed Oct 29 10:20:06 PDT 2014" modifiedBy="kevin.porter" name="Xml_getIncomingTransfersResponse__To_JSON" revision="1.0" showComponentDetails="false">
+<Global>
+<Metadata __filteredMetadata="false" __index="0" __referenceCounter="1" __schemaType="{http://training.mulesoft.com/}getIncomingTransfersResponse" __sourcePath="{http://training.mulesoft.com/=ns0}/ns0:getIncomingTransfersResponse" _dataStructure="OBJECT" _id="__id" _type="Input" id="754d2d13-4b6d-4f26-ba12-feefa4c8acfe">
+<Record fieldDelimiter="," name="getIncomingTransfersResponse" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="1" __sourcePath="{}/object" _dataStructure="OBJECT" _id="__id" _type="Output" id="89c07350-d2de-4c14-ac26-2dbaf13d5711">
+<Record fieldDelimiter="," name="object" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __sourcePath="{}/object/destination_x005faccount" containerType="SINGLE" label="destination_account" name="destination_account" type="integer"/>
+<Field __index="1" __sourcePath="{}/object/amount" containerType="SINGLE" label="amount" name="amount" type="number"/>
+<Field __index="2" __sourcePath="{}/object/description" containerType="SINGLE" label="description" name="description" type="string"/>
+</Record>
+</Metadata>
+<Metadata __index="0" __referenceCounter="0" __schemaType="{http://training.mulesoft.com/}transfer" __sourcePath="{http://training.mulesoft.com/=ns0}/ns0:getIncomingTransfersResponse/return" _dataStructure="SINGLE_DIMENSIONAL_COLLECTION" _id="__id" _metadataParentId="754d2d13-4b6d-4f26-ba12-feefa4c8acfe" _parent_id="__parent_id" _type="Input" id="ff321ad9-fa15-4097-b61a-9dc73212260e">
+<Record fieldDelimiter="," name="return" recordDelimiter="\n\\|\r\n\\|\r" type="delimited">
+<Field __artificialType="_parent_id" __systemManaged="true" name="__parent_id" type="string"/>
+<Field __artificialType="_id" __systemManaged="true" name="__id" type="string"/>
+<Field __index="0" __schemaType="{http://training.mulesoft.com/}transfer" __sourcePath="{http://training.mulesoft.com/=ns0}/ns0:getIncomingTransfersResponse/return/amount" containerType="SINGLE" label="amount" name="amount" type="number"/>
+<Field __index="1" __schemaType="{http://training.mulesoft.com/}transfer" __sourcePath="{http://training.mulesoft.com/=ns0}/ns0:getIncomingTransfersResponse/return/description" containerType="SINGLE" label="description" name="description" type="string"/>
+<Field __index="2" __schemaType="{http://training.mulesoft.com/}transfer" __sourcePath="{http://training.mulesoft.com/=ns0}/ns0:getIncomingTransfersResponse/return/sourceAccountID" containerType="SINGLE" label="sourceAccountID" name="sourceAccountID" type="integer"/>
+<Field __index="3" __schemaType="{http://training.mulesoft.com/}transfer" __sourcePath="{http://training.mulesoft.com/=ns0}/ns0:getIncomingTransfersResponse/return/targetAccountID" containerType="SINGLE" label="targetAccountID" name="targetAccountID" type="integer"/>
+<Field __index="4" __schemaType="{http://training.mulesoft.com/}transfer" __sourcePath="{http://training.mulesoft.com/=ns0}/ns0:getIncomingTransfersResponse/return/transferID" containerType="SINGLE" label="transferID" name="transferID" type="integer"/>
+</Record>
+</Metadata>
+<Dictionary>
+<Entry id="DictionaryEntry0" input="true" name="inputPayload" output="false" type="object"/>
+<Entry id="DictionaryEntry1" input="false" name="outputPayload" output="true" type="object"/>
+</Dictionary>
+</Global>
+<Phase number="0">
+<Node enabled="enabled" guiName="Foreach 'ns0:getIncomingTransfersResponse' -&gt; 'object'" guiX="460" guiY="20" id="FOREACH_NS0_GET_INCOMING_TRANSFERS_RESPONSE_OBJECT" transformClass="com.mulesoft.datamapper.transform.MelRecordTransform" type="REFORMAT">
+<attr name="melScript"><![CDATA[//MEL
+//START -> DO NOT REMOVE
+output.__id = input.__id;
+//END -> DO NOT REMOVE
+]]></attr>
+</Node>
+<Node cacheInMemory="true" charset="UTF-8" enabled="enabled" fileURL="dict:outputPayload" guiName="JSON WRITER" guiX="900" guiY="20" id="JSON_WRITER0" type="JSON_WRITER">
+<attr name="__isJsonSchema"><![CDATA[false]]></attr>
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<object xmlns:clover="http://www.cloveretl.com/ns/xmlmapping" clover:inPort="0">
+  <clover:element clover:name="destination_account">$0.destination_account</clover:element>
+  <amount>$0.amount</amount>
+  <description>$0.description</description>
+</object>]]></attr>
+<attr name="_data_format"><![CDATA[JSON]]></attr>
+<attr name="jsonSchemaURL"><![CDATA[/Users/kevin.porter/Downloads/bank.json]]></attr>
+</Node>
+<Node charset="UTF-8" enabled="enabled" fileURL="dict:inputPayload" guiName="XML READER" guiX="20" guiY="20" id="XML_READER0" type="XML_READER">
+<attr name="mapping"><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Context namespacePaths="ns0=&quot;http://training.mulesoft.com/&quot;" outPort="0" sequenceField="__id" xpath="/ns0:getIncomingTransfersResponse"/>
+]]></attr>
+<attr name="_data_format"><![CDATA[XML]]></attr>
+<attr name="__metadata"><![CDATA[true]]></attr>
+</Node>
+<Edge debugMode="true" fromNode="FOREACH_NS0_GET_INCOMING_TRANSFERS_RESPONSE_OBJECT:0" guiBendpoints="" id="Edge1" inPort="Port 0 (in)" metadata="89c07350-d2de-4c14-ac26-2dbaf13d5711" outPort="Port 0 (out)" toNode="JSON_WRITER0:0"/>
+<Edge debugMode="true" fromNode="XML_READER0:0" guiBendpoints="" id="Edge0" inPort="Port 0 (in)" metadata="754d2d13-4b6d-4f26-ba12-feefa4c8acfe" outPort="Port 0 (out)" toNode="FOREACH_NS0_GET_INCOMING_TRANSFERS_RESPONSE_OBJECT:0"/>
+</Phase>
+</Graph>

@@ -1,0 +1,14 @@
+target/
+*.log
+*.log.*
+*.mflow
+src/main/resources/mule.dev.properties
+bin/
+.mule/
+.studio/
+.settings/org.mulesoft.exportwizardsettings.prefs
+.classpath*
+.DS_Store
+*.settings
+*.project
+*.metadata
